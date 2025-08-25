@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "grafana-backup"
+version = "1.4.3"
+description = "A Python-based application to backup Grafana settings using the Grafana API"
+readme = "README.md"
+homepage = "https://github.com/stackitcloud/grafana-backup-tool"
+packages = [{include = "grafana_backup"}]
+
+[tool.poetry.dependencies]
+python = "^3.10.0"
+requests = "2.32.5"
+docopt = "0.6.2"
+boto3 = "1.40.16"
+azure-storage-blob = "12.26.0"
+google-cloud-storage = "3.3.0"
+influxdb = "5.3.2"
+packaging = "25.0"
+
+[tool.poetry.scripts]
+grafana-backup = "grafana_backup.cli:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

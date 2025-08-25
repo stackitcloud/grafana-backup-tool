@@ -74,34 +74,35 @@ To create and obtain a `Token` for your Grafana server, please refer to the [off
 
 ## Installation
 
-### Virtual environment (optional but recommended)
-
-Create a virtualenv, you could using something like `pyenv` if you'd prefer
+Installation works best using `poetry`
 
 ```shell
-virtualenv -p $(which python3) venv
-source venv/bin/activate
+poetry install
 ```
 
-### Installation using pypi
-
 ```shell
-pip install grafana-backup
-```
+$ poetry run grafana-backup --help
 
-### Installation using this repo
+grafana-backup 1.4.3
 
-First clone this repo
+Usage:
+    grafana-backup save [--config=<filename>] [--components=<>] [--no-archive]
+    grafana-backup restore [--config=<filename>] [--components=<>] <archive_file>
+    grafana-backup delete [--config=<filename>] [--components=<>]
+    grafana-backup tools [-h | --help] [--config=<filename>] [<optional-command>] [<optional-argument>]
+    grafana-backup [--config=<filename>]
+    grafana-backup [-h | --help]
+    grafana-backup --version
 
-```shell
-git clone https://github.com/ysde/grafana-backup-tool.git
-cd grafana-backup-tool
-```
+Options:
+    -h --help                               Show this help message and exit
+    --version                               Get version information and exit
+    --config=<filename>                     Override default configuration path
+    --components=<>                         Comma separated list of individual components to backup (all by default); dashboard-versions can only be saved not restored.
+                                            <folders,folder_permissions,dashboards,datasources,alert-channels,alert-rules,organizations,users,snapshots,dashboard-versions,annotations,library_elements,teams,team_members>
 
-Installation works best using `pip`
-
-```shell
-pip install .
+    --no-archive                            Skip archive creation and do not delete unarchived files
+                                            (used for troubleshooting purposes)
 ```
 
 ## How to Use
