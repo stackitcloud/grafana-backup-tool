@@ -1,5 +1,5 @@
 # Stage 1: Build the wheel file
-FROM python:3.13-alpine AS builder
+FROM python:3.14-alpine AS builder
 
 WORKDIR /build
 
@@ -11,7 +11,7 @@ RUN pip install poetry && \
     ls -l /build/dist
 
 # Stage 2: Create the final image
-FROM python:3.13-alpine
+FROM python:3.14-alpine
 
 ENV RESTORE=false
 ENV ARCHIVE_FILE=""
