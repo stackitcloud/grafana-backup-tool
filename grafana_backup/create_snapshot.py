@@ -1,4 +1,5 @@
 import json
+
 from grafana_backup.dashboardApi import create_snapshot
 
 
@@ -16,10 +17,12 @@ def main(args, settings, file_path):
     try:
         snapshot['name'] = snapshot['dashboard']['title']
     except KeyError:
-        snapshot['name'] = "Untitled Snapshot"
+        snapshot['name'] = 'Untitled Snapshot'
 
-    (status, content) = create_snapshot(json.dumps(snapshot), grafana_url, http_post_headers, verify_ssl, client_cert, debug)
+    (status, content) = create_snapshot(
+        json.dumps(snapshot), grafana_url, http_post_headers, verify_ssl, client_cert, debug
+    )
     if status == 200:
-        print("create snapshot: {0}, status: {1}, msg: {2}".format(snapshot['name'], status, content))
+        print('create snapshot: {0}, status: {1}, msg: {2}'.format(snapshot['name'], status, content))
     else:
-        print("creating snapshot {0} failed with status {1}".format(snapshot['name'], status))
+        print('creating snapshot {0} failed with status {1}'.format(snapshot['name'], status))

@@ -1,4 +1,5 @@
 import json
+
 from grafana_backup.dashboardApi import create_annotation
 
 
@@ -14,4 +15,4 @@ def main(args, settings, file_path):
 
     annotation = json.loads(data)
     result = create_annotation(json.dumps(annotation), grafana_url, http_post_headers, verify_ssl, client_cert, debug)
-    print("create annotation: {0}, status: {1}, msg: {2}".format(annotation['id'], result[0], result[1]))
+    print('create annotation: {0}, status: {1}, msg: {2}'.format(annotation['id'], result[0], result[1]))

@@ -1,14 +1,15 @@
-from grafana_backup.constants import (PKG_NAME, PKG_VERSION)
-from grafana_backup.pause_alerts import main as pause_alerts
-from grafana_backup.unpause_alerts import main as unpause_alerts
-from grafana_backup.make_users_viewers import main as make_users_viewers
-from grafana_backup.restore_user_permissions import main as restore_user_permissions
-from docopt import docopt
 import sys
+
+from docopt import docopt
+
+from grafana_backup.constants import PKG_NAME, PKG_VERSION
+from grafana_backup.make_users_viewers import main as make_users_viewers
+from grafana_backup.pause_alerts import main as pause_alerts
+from grafana_backup.restore_user_permissions import main as restore_user_permissions
+from grafana_backup.unpause_alerts import main as unpause_alerts
 
 
 def main(precommand_args, settings):
-
     docstring = """
 {0} {1}
 
@@ -25,8 +26,7 @@ Options:
     --config=<filename>                     Override default configuration path
     """.format(PKG_NAME, PKG_VERSION)
 
-    args = docopt(docstring, help=False,
-                  version='{0} {1}'.format(PKG_NAME, PKG_VERSION))
+    args = docopt(docstring, help=False, version='{0} {1}'.format(PKG_NAME, PKG_VERSION))
 
     combined_args = precommand_args.copy()
     combined_args.update(args)

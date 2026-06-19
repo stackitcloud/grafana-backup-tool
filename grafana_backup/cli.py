@@ -1,12 +1,14 @@
-from grafana_backup.constants import (PKG_NAME, PKG_VERSION, JSON_CONFIG_PATH)
-from grafana_backup.save import main as save
-from grafana_backup.restore import main as restore
-from grafana_backup.delete import main as delete
-from grafana_backup.tools import main as tools
-from grafana_backup.grafanaSettings import main as conf
-from docopt import docopt
 import os
 import sys
+
+from docopt import docopt
+
+from grafana_backup.constants import JSON_CONFIG_PATH, PKG_NAME, PKG_VERSION
+from grafana_backup.delete import main as delete
+from grafana_backup.grafanaSettings import main as conf
+from grafana_backup.restore import main as restore
+from grafana_backup.save import main as save
+from grafana_backup.tools import main as tools
 
 docstring = """
 {0} {1}
@@ -24,7 +26,8 @@ Options:
     -h --help                               Show this help message and exit
     --version                               Get version information and exit
     --config=<filename>                     Override default configuration path
-    --components=<>                         Comma separated list of individual components to backup (all by default); dashboard-versions can only be saved not restored.
+    --components=<>                         Comma separated list of individual components to backup (all by default);
+                                            dashboard-versions can only be saved not restored.
                                             <folders,folder_permissions,dashboards,datasources,alert-channels,alert-rules,organizations,users,snapshots,dashboard-versions,annotations,library_elements,teams,team_members>
 
     --no-archive                            Skip archive creation and do not delete unarchived files
@@ -32,14 +35,12 @@ Options:
 """.format(PKG_NAME, PKG_VERSION)
 
 
-args = docopt(docstring, help=False,
-              version='{0} {1}'.format(PKG_NAME, PKG_VERSION))
+args = docopt(docstring, help=False, version='{0} {1}'.format(PKG_NAME, PKG_VERSION))
 
 
 def main():
     arg_config = args.get('--config', False)
-    default_config = '{0}/conf/grafanaSettings.json'.format(
-        os.path.dirname(__file__))
+    default_config = '{0}/conf/grafanaSettings.json'.format(os.path.dirname(__file__))
 
     if arg_config:
         settings = conf(arg_config)

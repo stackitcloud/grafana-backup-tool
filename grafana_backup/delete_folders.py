@@ -1,5 +1,5 @@
-from grafana_backup.dashboardApi import search_folders, delete_folder
-from grafana_backup.commons import to_python2_and_3_compatible_string, print_horizontal_line
+from grafana_backup.commons import print_horizontal_line, to_python2_and_3_compatible_string
+from grafana_backup.dashboardApi import delete_folder, search_folders
 
 
 def main(args, settings):
@@ -13,7 +13,9 @@ def main(args, settings):
 
     folders = get_all_folders_in_grafana(grafana_url, http_get_headers, verify_ssl, client_cert, debug)
     print_horizontal_line()
-    get_individual_folder_setting_and_save(folders, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support)
+    get_individual_folder_setting_and_save(
+        folders, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support
+    )
     print_horizontal_line()
 
 
@@ -23,20 +25,22 @@ def get_all_folders_in_grafana(grafana_url, http_get_headers, verify_ssl, client
     content = status_and_content_of_all_folders[1]
     if status == 200:
         folders = content
-        print("There are {0} folders:".format(len(content)))
+        print('There are {0} folders:'.format(len(content)))
         for folder in folders:
-            print("name: {0}".format(to_python2_and_3_compatible_string(folder['title'])))
+            print('name: {0}'.format(to_python2_and_3_compatible_string(folder['title'])))
         return folders
     else:
-        print("get folders failed, status: {0}, msg: {1}".format(status, content))
+        print('get folders failed, status: {0}, msg: {1}'.format(status, content))
         return []
 
 
-def get_individual_folder_setting_and_save(folders, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support):
+def get_individual_folder_setting_and_save(
+    folders, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support
+):
     for folder in folders:
         status = delete_folder(folder['uid'], grafana_url, http_get_headers, verify_ssl, client_cert, debug)
 
         if status == 200:
-            print("deleted folder {0}".format(folder))
+            print('deleted folder {0}'.format(folder))
         else:
-            print("failed to delete folder {0} with {1}".format(folder, status))
+            print('failed to delete folder {0} with {1}'.format(folder, status))

@@ -1,4 +1,5 @@
 import json
+
 from grafana_backup.dashboardApi import create_folder
 
 
@@ -14,4 +15,4 @@ def main(args, settings, file_path):
 
     folder = json.loads(data)
     result = create_folder(json.dumps(folder), grafana_url, http_post_headers, verify_ssl, client_cert, debug)
-    print("create folder {0}, status: {1}, msg: {2}\n".format(folder.get('title', ''), result[0], result[1]))
+    print('create folder {0}, status: {1}, msg: {2}\n'.format(folder.get('title', ''), result[0], result[1]))

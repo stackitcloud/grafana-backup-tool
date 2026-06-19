@@ -1,12 +1,13 @@
-import sys
 import json
+import sys
+
 from grafana_backup.api_checks import main as api_checks
 from grafana_backup.dashboardApi import unpause_alert
 
 
 def main(args, settings):
     alerts_file = args.get('<alerts_filename>', None)
-    print("got alerts_file {0}".format(alerts_file))
+    print('got alerts_file {0}'.format(alerts_file))
 
     (status, json_resp, dashboard_uid_support, datasource_uid_support, paging_support) = api_checks(settings)
 
@@ -30,7 +31,7 @@ def main(args, settings):
         if alert['state'] != 'paused':
             result = unpause_alert(alert['id'], grafana_url, http_post_headers, verify_ssl, client_cert, debug)
             if result[0] != 200:
-                print("failed to unpause alert: {0} - {1} with {2}".format(alert['id'], alert['name'], result[0]))
-            print("unpausing alert: {0} - {1} with previous state: {2}".format(alert['id'], alert['name'], result[0]))
+                print('failed to unpause alert: {0} - {1} with {2}'.format(alert['id'], alert['name'], result[0]))
+            print('unpausing alert: {0} - {1} with previous state: {2}'.format(alert['id'], alert['name'], result[0]))
         else:
-            print("keeping alert {0} - {1} paused".format(alert['id'], alert['name']))
+            print('keeping alert {0} - {1} paused'.format(alert['id'], alert['name']))

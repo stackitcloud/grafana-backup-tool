@@ -1,7 +1,7 @@
-from glob import glob
 import os
-import tarfile
 import shutil
+import tarfile
+from glob import glob
 
 
 def main(args, settings):
@@ -11,8 +11,23 @@ def main(args, settings):
     archive_file = '{0}/{1}.tar.gz'.format(backup_dir, timestamp)
     backup_files = list()
 
-    for folder_name in ['folders', 'datasources', 'dashboards', 'alert_channels', 'organizations', 'users', 'snapshots',
-                        'dashboard_versions', 'annotations', 'library-elements', 'teams', 'team_members', 'alert_rules', 'contact_points', 'notification_policies']:
+    for folder_name in [
+        'folders',
+        'datasources',
+        'dashboards',
+        'alert_channels',
+        'organizations',
+        'users',
+        'snapshots',
+        'dashboard_versions',
+        'annotations',
+        'library-elements',
+        'teams',
+        'team_members',
+        'alert_rules',
+        'contact_points',
+        'notification_policies',
+    ]:
         backup_path = '{0}/{1}/{2}'.format(backup_dir, folder_name, timestamp)
 
         for file_path in glob(backup_path):
@@ -22,7 +37,7 @@ def main(args, settings):
     if os.path.exists(archive_file):
         os.remove(archive_file)
 
-    with tarfile.open(archive_file, "w:gz") as tar:
+    with tarfile.open(archive_file, 'w:gz') as tar:
         for file_path in backup_files:
             tar.add(file_path)
             shutil.rmtree(os.path.abspath(os.path.join(file_path, os.pardir)))

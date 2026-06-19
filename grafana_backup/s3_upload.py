@@ -1,4 +1,3 @@
-import boto3
 from botocore.exceptions import NoCredentialsError
 
 from grafana_backup.s3_common import get_s3_object
@@ -15,12 +14,12 @@ def main(args, settings):
 
     try:
         s3_object.put(Body=open(archive_file, 'rb'))
-        print("Upload to S3 was successful")
+        print('Upload to S3 was successful')
     except FileNotFoundError:  # noqa: F821
-        print("The file was not found")
+        print('The file was not found')
         return False
     except NoCredentialsError:
-        print("Credentials not available")
+        print('Credentials not available')
         return False
 
     return True

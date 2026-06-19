@@ -1,6 +1,7 @@
 import os
-from grafana_backup.dashboardApi import search_dashboard, get_dashboard
-from grafana_backup.commons import to_python2_and_3_compatible_string, print_horizontal_line, save_json
+
+from grafana_backup.commons import print_horizontal_line, save_json, to_python2_and_3_compatible_string
+from grafana_backup.dashboardApi import get_dashboard, search_dashboard
 
 
 def main(args, settings):
@@ -24,45 +25,77 @@ def main(args, settings):
         os.makedirs(folder_path)
 
     if paging_support:
-        save_dashboards_above_Ver6_2(folder_path, log_file, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support, uid_dashboard_slug_suffix)
+        save_dashboards_above_Ver6_2(
+            folder_path,
+            log_file,
+            grafana_url,
+            http_get_headers,
+            verify_ssl,
+            client_cert,
+            debug,
+            pretty_print,
+            uid_support,
+            uid_dashboard_slug_suffix,
+        )
     else:
-        save_dashboards(folder_path, log_file, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support, uid_dashboard_slug_suffix)
+        save_dashboards(
+            folder_path,
+            log_file,
+            limit,
+            grafana_url,
+            http_get_headers,
+            verify_ssl,
+            client_cert,
+            debug,
+            pretty_print,
+            uid_support,
+            uid_dashboard_slug_suffix,
+        )
 
 
 def get_all_dashboards_in_grafana(page, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug):
-    (status, content) = search_dashboard(page,
-                                         limit,
-                                         grafana_url,
-                                         http_get_headers,
-                                         verify_ssl, client_cert,
-                                         debug)
+    (status, content) = search_dashboard(page, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug)
     if status == 200:
         dashboards = content
-        print("There are {0} dashboards:".format(len(dashboards)))
+        print('There are {0} dashboards:'.format(len(dashboards)))
         for board in dashboards:
             print('name: {0}'.format(to_python2_and_3_compatible_string(board['title'])))
         return dashboards
     else:
-        print("get dashboards failed, status: {0}, msg: {1}".format(status, content))
+        print('get dashboards failed, status: {0}, msg: {1}'.format(status, content))
         return []
 
 
 def save_dashboard_setting(dashboard_name, file_name, dashboard_settings, folder_path, pretty_print):
     file_path = save_json(file_name, dashboard_settings, folder_path, 'dashboard', pretty_print)
-    print("dashboard: {0} -> saved to: {1}".format(dashboard_name, file_path))
+    print('dashboard: {0} -> saved to: {1}'.format(dashboard_name, file_path))
 
 
-def get_individual_dashboard_setting_and_save(dashboards, folder_path, log_file, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support, slug_suffix):
+def get_individual_dashboard_setting_and_save(
+    dashboards,
+    folder_path,
+    log_file,
+    grafana_url,
+    http_get_headers,
+    verify_ssl,
+    client_cert,
+    debug,
+    pretty_print,
+    uid_support,
+    slug_suffix,
+):
     file_path = folder_path + '/' + log_file
     if dashboards:
-        with open(u"{0}".format(file_path), 'w') as f:
+        with open('{0}'.format(file_path), 'w') as f:
             for board in dashboards:
                 if uid_support:
-                    board_uri = "uid/{0}".format(board['uid'])
+                    board_uri = 'uid/{0}'.format(board['uid'])
                 else:
                     board_uri = board['uri']
 
-                (status, content) = get_dashboard(board_uri, grafana_url, http_get_headers, verify_ssl, client_cert, debug)
+                (status, content) = get_dashboard(
+                    board_uri, grafana_url, http_get_headers, verify_ssl, client_cert, debug
+                )
                 if status == 200:
                     file_name = build_filename(board_uri, content, uid_support, slug_suffix)
                     save_dashboard_setting(
@@ -70,7 +103,7 @@ def get_individual_dashboard_setting_and_save(dashboards, folder_path, log_file,
                         file_name,
                         content,
                         folder_path,
-                        pretty_print
+                        pretty_print,
                     )
                     f.write('{0}\t{1}\n'.format(board_uri, to_python2_and_3_compatible_string(board['title'])))
 
@@ -81,29 +114,80 @@ def build_filename(board_uri, content, uid_support, slug_suffix):
         return file_name
     if not slug_suffix:
         return file_name
-    slug = content.get("meta", {}).get("slug")
-    suffix = "" if slug is None else "-" + slug
-    file_name = "{0}{1}".format(board_uri, suffix)
+    slug = content.get('meta', {}).get('slug')
+    suffix = '' if slug is None else '-' + slug
+    file_name = '{0}{1}'.format(board_uri, suffix)
     return file_name
 
 
-def save_dashboards_above_Ver6_2(folder_path, log_file, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support, slug_suffix):
+def save_dashboards_above_Ver6_2(
+    folder_path,
+    log_file,
+    grafana_url,
+    http_get_headers,
+    verify_ssl,
+    client_cert,
+    debug,
+    pretty_print,
+    uid_support,
+    slug_suffix,
+):
     limit = 5000  # limit is 5000 above V6.2+
     current_page = 1
     while True:
-        dashboards = get_all_dashboards_in_grafana(current_page, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug)
+        dashboards = get_all_dashboards_in_grafana(
+            current_page, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug
+        )
         print_horizontal_line()
         if len(dashboards) == 0:
             break
         else:
             current_page += 1
-        get_individual_dashboard_setting_and_save(dashboards, folder_path, log_file, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support, slug_suffix)
+        get_individual_dashboard_setting_and_save(
+            dashboards,
+            folder_path,
+            log_file,
+            grafana_url,
+            http_get_headers,
+            verify_ssl,
+            client_cert,
+            debug,
+            pretty_print,
+            uid_support,
+            slug_suffix,
+        )
         print_horizontal_line()
 
 
-def save_dashboards(folder_path, log_file, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support, slug_suffix):
+def save_dashboards(
+    folder_path,
+    log_file,
+    limit,
+    grafana_url,
+    http_get_headers,
+    verify_ssl,
+    client_cert,
+    debug,
+    pretty_print,
+    uid_support,
+    slug_suffix,
+):
     current_page = 1
-    dashboards = get_all_dashboards_in_grafana(current_page, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug)
+    dashboards = get_all_dashboards_in_grafana(
+        current_page, limit, grafana_url, http_get_headers, verify_ssl, client_cert, debug
+    )
     print_horizontal_line()
-    get_individual_dashboard_setting_and_save(dashboards, folder_path, log_file, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support, slug_suffix)
+    get_individual_dashboard_setting_and_save(
+        dashboards,
+        folder_path,
+        log_file,
+        grafana_url,
+        http_get_headers,
+        verify_ssl,
+        client_cert,
+        debug,
+        pretty_print,
+        uid_support,
+        slug_suffix,
+    )
     print_horizontal_line()
