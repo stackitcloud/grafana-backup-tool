@@ -1,0 +1,36 @@
+aliases:
+  grafana-backup-tool-reviewers:
+  - dergeberl
+  - JuliusSte
+  - Kumm-Kai
+  - maboehm
+  - nschad
+  - rapsnx
+  - robinschneider
+  - timebertt
+  - duciwuci
+  - hown3d
+  - xoxys
+  - ftl
+  - hasit97
+  - mstueer
+  - OlegVanHorst
+  - jamand
+  - breuerfelix
+  grafana-backup-tool-approvers:
+  - dergeberl
+  - JuliusSte
+  - Kumm-Kai
+  - maboehm
+  - nschad
+  - rapsnx
+  - robinschneider
+  - timebertt
+  - hown3d
+  - xoxys
+  - ftl
+  - hasit97
+  - mstueer
+  - OlegVanHorst
+  - jamand
+  - breuerfelix
