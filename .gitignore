@@ -6,4 +6,5 @@ _OUTPUT_
 venv/
 build/
 dist/
+cover/
 *.egg-info/

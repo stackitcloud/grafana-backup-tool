@@ -1,5 +1,7 @@
 # Grafana Backup Tool
 
+[![GitHub License](https://img.shields.io/github/license/stackitcloud/stackit-sdk-go)](https://www.apache.org/licenses/LICENSE-2.0)
+
 A Python-based application to backup Grafana settings using the [Grafana API](https://grafana.com/docs/grafana/latest/http_api/).
 
 The aim of this tool is to:
@@ -113,8 +115,8 @@ Options:
 **_Example:_**
 
 ```bash
-$ grafana-backup save
-$ tree _OUTPUT_
+grafana-backup save
+tree _OUTPUT_
 _OUTPUT_/
 └── 202006272027.tar.gz
 ```
@@ -126,7 +128,7 @@ _OUTPUT_/
 **_Example:_**
 
 ```bash
-$ grafana-backup restore _OUTPUT_/202006272027.tar.gz
+grafana-backup restore _OUTPUT_/202006272027.tar.gz
 ```
 
 ## Docker
