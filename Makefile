@@ -48,7 +48,7 @@ lint: ## Run ruff linter.
 	@poetry run ruff check .
 
 .PHONY: check
-check: lint fmt ## Run Python checks (lint + format).
+check: lint test ## Run Python checks.
 
 .PHONY: test
 test: ## Run tests with pytest.

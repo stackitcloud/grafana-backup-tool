@@ -21,7 +21,6 @@ Fixes #
 If your PR contains breaking changes, list the changes in detail here.
 This could be:
 - removing a documented feature, that we need to announce properly
-- a change of the configuration, that needs to be adopted in the provider-stackit
 
 Additionally, add the breaking label for the release note generation via:
 /label breaking

@@ -1,5 +1,5 @@
 # Stage 1: Build the wheel file
-FROM python:3.10-alpine AS builder
+FROM docker.io/python:3.10-alpine@sha256:cb0f3c7df8d980aed5c2a84cc6b83cdcd3ef5a359a2ff68ec750946e86fe281a AS builder
 
 WORKDIR /build
 
@@ -11,7 +11,7 @@ RUN pip install poetry && \
     ls -l /build/dist
 
 # Stage 2: Create the final image
-FROM python:3.10-alpine
+FROM docker.io/python:3.10-alpine@sha256:cb0f3c7df8d980aed5c2a84cc6b83cdcd3ef5a359a2ff68ec750946e86fe281a
 
 ENV RESTORE=false
 ENV ARCHIVE_FILE=""
@@ -27,7 +27,7 @@ COPY --from=builder /build/dist/*.whl /
 # Install the wheel file
 RUN pip install --upgrade --no-cache-dir pip && \
     pip install --no-cache-dir $(find / -name "grafana_backup-*.whl") && \
-    rm -f ansible_doctor-*.whl && \
+    rm -f grafana_backup-*.whl && \
     chown -R 1337:1337 /opt/grafana-backup-tool && \
     chmod -R 755 /opt/grafana-backup-tool
 
