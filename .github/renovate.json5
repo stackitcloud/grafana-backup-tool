@@ -1,0 +1,10 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    'github>stackitcloud/ske-ci-infra//config/renovate/ske.json5',
+  ],
+  additionalReviewers: [
+    'team:ske-infrastructure',
+  ]
+}
