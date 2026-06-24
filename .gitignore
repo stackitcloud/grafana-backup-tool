@@ -8,3 +8,5 @@ build/
 dist/
 cover/
 *.egg-info/
+.coverage
+coverage.xml

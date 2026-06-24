@@ -22,7 +22,7 @@ pytest = "8.4.2"
 pytest-cov = "6.3.0"
 
 [tool.pytest.ini_options]
-addopts = "ansibledoctor --cov=ansibledoctor --cov-report=xml:coverage.xml --cov-report=term --no-cov-on-fail"
+addopts = "grafana_backup --cov=grafana_backup --cov-report=xml:coverage.xml --cov-report=term --no-cov-on-fail"
 filterwarnings = [
   "ignore::FutureWarning",
   "ignore::DeprecationWarning",
