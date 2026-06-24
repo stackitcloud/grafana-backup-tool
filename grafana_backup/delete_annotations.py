@@ -1,6 +1,7 @@
 import time
-from grafana_backup.dashboardApi import search_annotations, delete_annotation
+
 from grafana_backup.commons import print_horizontal_line
+from grafana_backup.dashboardApi import delete_annotation, search_annotations
 
 
 def main(args, settings):
@@ -21,22 +22,29 @@ def get_all_annotations_and_delete(grafana_url, http_get_headers, verify_ssl, cl
 
     ts_to = now
     ts_from = now - one_month_in_ms
-    thirteen_months_retention = (now - (13 * one_month_in_ms))
+    thirteen_months_retention = now - (13 * one_month_in_ms)
 
     while ts_from > thirteen_months_retention:
-        status_code_and_content = search_annotations(grafana_url, ts_from, ts_to, http_get_headers, verify_ssl, client_cert, debug)
+        status_code_and_content = search_annotations(
+            grafana_url, ts_from, ts_to, http_get_headers, verify_ssl, client_cert, debug
+        )
         if status_code_and_content[0] == 200:
             annotations = status_code_and_content[1]
-            print("There are {0} annotations:".format(len(annotations)))
+            print('There are {0} annotations:'.format(len(annotations)))
             for annotation in annotations:
-                status = delete_annotation(annotation['id'], grafana_url, http_get_headers, verify_ssl, client_cert, debug)
+                status = delete_annotation(
+                    annotation['id'], grafana_url, http_get_headers, verify_ssl, client_cert, debug
+                )
                 if status == 200:
-                    print("annotation:{0} is deleted".format(annotation['id']))
+                    print('annotation:{0} is deleted'.format(annotation['id']))
                 else:
-                    print("deleting of annotation {0} failed with: {1}".format(annotation['id'], status))
+                    print('deleting of annotation {0} failed with: {1}'.format(annotation['id'], status))
         else:
-            print("query annotation failed, status: {0}, msg: {1}".format(status_code_and_content[0],
-                                                                          status_code_and_content[1]))
+            print(
+                'query annotation failed, status: {0}, msg: {1}'.format(
+                    status_code_and_content[0], status_code_and_content[1]
+                )
+            )
 
         ts_to = ts_from
         ts_from = ts_from - one_month_in_ms

@@ -13,12 +13,14 @@ def main(args, settings):
 
     try:
         blob_service_client = BlobServiceClient.from_connection_string(azure_storage_connection_string)
-        container_client = blob_service_client.get_blob_client(container=azure_storage_container_name, blob=azure_file_name)
+        container_client = blob_service_client.get_blob_client(
+            container=azure_storage_container_name, blob=azure_file_name
+        )
         with open(archive_file, 'rb') as data:
             container_client.upload_blob(data)
-        print("Upload to Azure Storage was successful")
+        print('Upload to Azure Storage was successful')
     except FileNotFoundError:  # noqa: F821
-        print("The file was not found")
+        print('The file was not found')
         return False
     except Exception as e:
         print(str(e))

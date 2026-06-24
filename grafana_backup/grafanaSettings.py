@@ -2,6 +2,7 @@ import base64
 import json
 import os
 from datetime import datetime
+
 from grafana_backup.commons import load_config
 
 
@@ -111,14 +112,17 @@ def main(config_path):
 
     UID_DASHBOARD_SLUG_SUFFIX = os.getenv('UID_DASHBOARD_SLUG_SUFFIX', uid_dashboard_slug_suffix)
     if isinstance(UID_DASHBOARD_SLUG_SUFFIX, str):
-        UID_DASHBOARD_SLUG_SUFFIX = json.loads(UID_DASHBOARD_SLUG_SUFFIX.lower())  # convert environment variable string to bool
+        UID_DASHBOARD_SLUG_SUFFIX = json.loads(
+            UID_DASHBOARD_SLUG_SUFFIX.lower()
+        )  # convert environment variable string to bool
 
     PRETTY_PRINT = os.getenv('PRETTY_PRINT', pretty_print)
     if isinstance(PRETTY_PRINT, str):
         PRETTY_PRINT = json.loads(PRETTY_PRINT.lower())  # convert environment variable string to bool
 
     EXTRA_HEADERS = dict(
-        h.split(':') for h in os.getenv('GRAFANA_HEADERS', '').split(',') if 'GRAFANA_HEADERS' in os.environ)
+        h.split(':') for h in os.getenv('GRAFANA_HEADERS', '').split(',') if 'GRAFANA_HEADERS' in os.environ
+    )
 
     if TOKEN:
         HTTP_GET_HEADERS = {'Authorization': 'Bearer ' + TOKEN}
@@ -139,9 +143,9 @@ def main(config_path):
     config_dict['GRAFANA_ADMIN_PASSWORD'] = ADMIN_PASSWORD
 
     if not GRAFANA_BASIC_AUTH and (ADMIN_ACCOUNT and ADMIN_PASSWORD):
-        GRAFANA_BASIC_AUTH = base64.b64encode(
-            "{0}:{1}".format(ADMIN_ACCOUNT, ADMIN_PASSWORD).encode('utf8')
-        ).decode('utf8')
+        GRAFANA_BASIC_AUTH = base64.b64encode('{0}:{1}'.format(ADMIN_ACCOUNT, ADMIN_PASSWORD).encode('utf8')).decode(
+            'utf8'
+        )
 
     if GRAFANA_BASIC_AUTH:
         HTTP_GET_HEADERS_BASIC_AUTH = HTTP_GET_HEADERS.copy()

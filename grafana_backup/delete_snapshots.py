@@ -1,5 +1,5 @@
-from grafana_backup.dashboardApi import search_snapshot, delete_snapshot
 from grafana_backup.commons import print_horizontal_line
+from grafana_backup.dashboardApi import delete_snapshot, search_snapshot
 
 
 def main(args, settings):
@@ -18,16 +18,19 @@ def get_all_snapshots_and_delete(grafana_url, http_get_headers, verify_ssl, clie
     status_code_and_content = search_snapshot(grafana_url, http_get_headers, verify_ssl, client_cert, debug)
     if status_code_and_content[0] == 200:
         snapshots = status_code_and_content[1]
-        print("There are {0} snapshots:".format(len(snapshots)))
+        print('There are {0} snapshots:'.format(len(snapshots)))
         for snapshot in snapshots:
             print(snapshot)
             status = delete_snapshot(snapshot['key'], grafana_url, http_get_headers, verify_ssl, client_cert, debug)
 
             if status == 200:
-                print("deleted snapshot {0}".format(snapshot['name']))
+                print('deleted snapshot {0}'.format(snapshot['name']))
             else:
-                print("failed to delete snapshot {0}, with {1}".format(snapshot['name'], status))
+                print('failed to delete snapshot {0}, with {1}'.format(snapshot['name'], status))
 
     else:
-        print("query snapshot failed, status: {0}, msg: {1}".format(status_code_and_content[0],
-                                                                    status_code_and_content[1]))
+        print(
+            'query snapshot failed, status: {0}, msg: {1}'.format(
+                status_code_and_content[0], status_code_and_content[1]
+            )
+        )

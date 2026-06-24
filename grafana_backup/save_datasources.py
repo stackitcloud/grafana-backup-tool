@@ -1,6 +1,7 @@
 import os
-from grafana_backup.dashboardApi import search_datasource
+
 from grafana_backup.commons import print_horizontal_line, save_json
+from grafana_backup.dashboardApi import search_datasource
 
 
 def main(args, settings):
@@ -19,20 +20,24 @@ def main(args, settings):
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
-    get_all_datasources_and_save(folder_path, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support)
+    get_all_datasources_and_save(
+        folder_path, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support
+    )
     print_horizontal_line()
 
 
 def save_datasource(file_name, datasource_setting, folder_path, pretty_print):
     file_path = save_json(file_name, datasource_setting, folder_path, 'datasource', pretty_print)
-    print("datasource:{0} is saved to {1}".format(file_name, file_path))
+    print('datasource:{0} is saved to {1}'.format(file_name, file_path))
 
 
-def get_all_datasources_and_save(folder_path, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support):
+def get_all_datasources_and_save(
+    folder_path, grafana_url, http_get_headers, verify_ssl, client_cert, debug, pretty_print, uid_support
+):
     status_code_and_content = search_datasource(grafana_url, http_get_headers, verify_ssl, client_cert, debug)
     if status_code_and_content[0] == 200:
         datasources = status_code_and_content[1]
-        print("There are {0} datasources:".format(len(datasources)))
+        print('There are {0} datasources:'.format(len(datasources)))
         for datasource in datasources:
             print(datasource)
             if uid_support:
@@ -41,5 +46,8 @@ def get_all_datasources_and_save(folder_path, grafana_url, http_get_headers, ver
                 datasource_name = datasource['name']
             save_datasource(datasource_name, datasource, folder_path, pretty_print)
     else:
-        print("query datasource failed, status: {0}, msg: {1}".format(status_code_and_content[0],
-                                                                      status_code_and_content[1]))
+        print(
+            'query datasource failed, status: {0}, msg: {1}'.format(
+                status_code_and_content[0], status_code_and_content[1]
+            )
+        )

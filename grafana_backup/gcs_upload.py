@@ -20,18 +20,18 @@ def main(args, settings):
         blob = bucket.blob(gcs_blob_name)
         blob.upload_from_filename(archive_file)
 
-        print("Upload to gcs: was successful")
+        print('Upload to gcs: was successful')
     except FileNotFoundError:  # noqa: F821
-        print("The file: {0} was not found".format(archive_file))
+        print('The file: {0} was not found'.format(archive_file))
         return False
     except api_core.exceptions.Forbidden as e:
-        print("Permission denied: {0}, please grant `Storage Admin` to service account you used".format(str(e)))
+        print('Permission denied: {0}, please grant `Storage Admin` to service account you used'.format(str(e)))
         return False
     except api_core.exceptions.NotFound:
         print("The gcs bucket: {0} doesn't exist".format(bucket_name))
         return False
     except Exception as e:
-        print("Exception: {0}".format(str(e)))
+        print('Exception: {0}'.format(str(e)))
         return False
 
     return True

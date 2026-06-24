@@ -1,4 +1,5 @@
 import json
+
 from grafana_backup.dashboardApi import create_datasource
 
 
@@ -14,4 +15,4 @@ def main(args, settings, file_path):
 
     datasource = json.loads(data)
     result = create_datasource(json.dumps(datasource), grafana_url, http_post_headers, verify_ssl, client_cert, debug)
-    print("create datasource: {0}, status: {1}, msg: {2}".format(datasource['name'], result[0], result[1]))
+    print('create datasource: {0}, status: {1}, msg: {2}'.format(datasource['name'], result[0], result[1]))

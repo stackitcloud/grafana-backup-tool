@@ -1,19 +1,21 @@
-import re, sys, json
+import json
+import re
+import sys
 
 
 def print_horizontal_line():
     print('')
-    print("########################################")
+    print('########################################')
     print('')
 
 
 def log_response(resp):
     status_code = resp.status_code
-    print("[DEBUG] resp status: {0}".format(status_code))
+    print('[DEBUG] resp status: {0}'.format(status_code))
     try:
-        print("[DEBUG] resp body: {0}".format(resp.json()))
+        print('[DEBUG] resp body: {0}'.format(resp.json()))
     except ValueError:
-        print("[DEBUG] resp body: {0}".format(to_python2_and_3_compatible_string(resp.text)))
+        print('[DEBUG] resp body: {0}'.format(to_python2_and_3_compatible_string(resp.text)))
     return resp
 
 
@@ -39,12 +41,12 @@ def load_config(path=None):
 
 
 def save_json(file_name, data, folder_path, extension, pretty_print):
-    pattern = "^db/|^uid/"
+    pattern = '^db/|^uid/'
     if re.match(pattern, file_name):
         file_name = re.sub(pattern, '', file_name)
 
     file_path = folder_path + '/' + file_name + '.' + extension
-    with open(u"{0}".format(file_path), 'w') as f:
+    with open('{0}'.format(file_path), 'w') as f:
         if pretty_print:
             f.write(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
         else:

@@ -1,6 +1,7 @@
 import datetime
-import influxdb
 import sys
+
+import influxdb
 
 
 def main(args, settings):
@@ -19,19 +20,21 @@ def main(args, settings):
         password=influxdb_password,
         database=influxdb_database,
         ssl=False,
-        verify_ssl=False
+        verify_ssl=False,
     )
 
     try:
-        result = influx.write_points([{
-            "measurement": influxdb_measurement,
-            "time": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "fields": {
-                "backed_up": True
-            }
-        }])
+        result = influx.write_points(
+            [
+                {
+                    'measurement': influxdb_measurement,
+                    'time': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    'fields': {'backed_up': True},
+                }
+            ]
+        )
         if result is True:
-            print("InfluxDB metrics written successfully.")
+            print('InfluxDB metrics written successfully.')
     except Exception as e:
         print('InfluxDB exception: \n{0}'.format(str(e)))
         sys.exit(1)
