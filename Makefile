@@ -54,10 +54,6 @@ check: lint test ## Run Python checks.
 test: ## Run tests with pytest.
 	poetry run pytest
 
-.PHONY: test-cover
-test-cover: ## Run tests with coverage.
-	poetry run pytest --cov=grafana_backup --cov-report=html
-
 ##@ Verification
 
 .PHONY: verify-fmt
@@ -74,8 +70,7 @@ verify: verify-fmt check
 .PHONY: clean
 clean: ## Remove build artifacts.
 	rm -rf dist/ build/ *.egg-info grafana_backup.egg-info
-	rm -rf .pytest_cache/ .coverage cover.html
-	rm -rf htmlcov/
+	rm -rf .pytest_cache/ .coverage coverage.xml
 
 .PHONY: help
 help: ## Display this help.
