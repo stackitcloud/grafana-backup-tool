@@ -20,6 +20,7 @@ packaging = "25.0"
 ruff = "0.12.12"
 pytest = "9.1.1"
 pytest-cov = "6.3.0"
+pytest-mock = "3.14.1"
 
 [tool.pytest.ini_options]
 addopts = "grafana_backup --cov=grafana_backup --cov-report=xml:coverage.xml --cov-report=term --no-cov-on-fail"
