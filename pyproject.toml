@@ -39,7 +39,6 @@ exclude = [
   "__pycache__",
   "build",
   "dist",
-  "test",
   "*.pyc",
   "*.egg-info",
   ".cache",
