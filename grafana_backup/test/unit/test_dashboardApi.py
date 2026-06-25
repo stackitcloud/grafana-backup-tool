@@ -24,8 +24,11 @@ def api_args():
 def test_health_check(mocker, api_args):
     mocker.patch('grafana_backup.dashboardApi.send_grafana_get', return_value=(200, {'status': 'ok'}))
     status, content = dashboardApi.health_check(
-        api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        api_args['grafana_url'],
+        api_args['http_get_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200
     assert content == {'status': 'ok'}
@@ -34,8 +37,11 @@ def test_health_check(mocker, api_args):
 def test_auth_check(mocker, api_args):
     mocker.patch('grafana_backup.dashboardApi.send_grafana_get', return_value=(200, {'orgId': 1}))
     status, content = dashboardApi.auth_check(
-        api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        api_args['grafana_url'],
+        api_args['http_get_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200
 
@@ -58,8 +64,14 @@ def test_auth_check(mocker, api_args):
 )
 def test_search_endpoints(mocker, api_args, func_name, api_func, extra_args, expected_url_fragment):
     mock_get = mocker.patch('grafana_backup.dashboardApi.send_grafana_get', return_value=(200, []))
-    api_func(*extra_args, api_args['grafana_url'], api_args['http_get_headers'],
-             api_args['verify_ssl'], api_args['client_cert'], api_args['debug'])
+    api_func(
+        *extra_args,
+        api_args['grafana_url'],
+        api_args['http_get_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
+    )
     mock_get.assert_called_once()
     call_url = mock_get.call_args[0][0]
     assert expected_url_fragment in call_url
@@ -84,8 +96,12 @@ def test_search_endpoints(mocker, api_args, func_name, api_func, extra_args, exp
 def test_get_endpoints(mocker, api_args, api_func, extra_args):
     mocker.patch('grafana_backup.dashboardApi.send_grafana_get', return_value=(200, {}))
     status, content = api_func(
-        *extra_args, api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        *extra_args,
+        api_args['grafana_url'],
+        api_args['http_get_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200
 
@@ -109,8 +125,12 @@ def test_get_endpoints(mocker, api_args, api_func, extra_args):
 def test_create_endpoints(mocker, api_args, api_func, payload):
     mocker.patch('grafana_backup.dashboardApi.send_grafana_post', return_value=(200, {'id': 1}))
     result = api_func(
-        payload, api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        payload,
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result[0] == 200
 
@@ -134,8 +154,12 @@ def test_create_endpoints(mocker, api_args, api_func, payload):
 def test_delete_endpoints(mocker, api_args, api_func, extra_args):
     mocker.patch('grafana_backup.dashboardApi.send_grafana_delete', return_value=200)
     result = api_func(
-        *extra_args, api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        *extra_args,
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result == 200
 
@@ -143,8 +167,12 @@ def test_delete_endpoints(mocker, api_args, api_func, extra_args):
 def test_get_folder_id_with_folder_uid(mocker, api_args, sample_dashboard_full):
     mocker.patch('grafana_backup.dashboardApi.get_folder', return_value=(200, {'id': 5, 'uid': 'folder-uid-1'}))
     result = dashboardApi.get_folder_id(
-        sample_dashboard_full, api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        sample_dashboard_full,
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result == 5
 
@@ -156,8 +184,12 @@ def test_get_folder_id_with_folder_url_fallback(mocker, api_args):
     }
     mocker.patch('grafana_backup.dashboardApi.get_folder', return_value=(200, {'id': 10, 'uid': 'fallback-uid'}))
     result = dashboardApi.get_folder_id(
-        dashboard, api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        dashboard,
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result == 10
 
@@ -169,8 +201,12 @@ def test_get_folder_id_no_folder(mocker, api_args):
     }
     mocker.patch('grafana_backup.dashboardApi.get_folder', return_value=(200, {'id': 0, 'uid': '0'}))
     result = dashboardApi.get_folder_id(
-        dashboard, api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        dashboard,
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result == 0
 
@@ -182,8 +218,12 @@ def test_get_folder_id_key_error_returns_zero(mocker, api_args):
         'dashboard': {'title': 'Test'},
     }
     result = dashboardApi.get_folder_id(
-        dashboard, api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        dashboard,
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result == 0
 
@@ -203,8 +243,11 @@ def test_uid_feature_check(
     mocker.patch('grafana_backup.dashboardApi.search_dashboard', return_value=search_dashboard_return)
     mocker.patch('grafana_backup.dashboardApi.search_datasource', return_value=search_datasource_return)
     dash_uid, ds_uid = dashboardApi.uid_feature_check(
-        api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        api_args['grafana_url'],
+        api_args['http_get_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert dash_uid is expected_dash_uid
     assert ds_uid is expected_ds_uid
@@ -217,18 +260,30 @@ def test_paging_feature_check_supported(mocker, api_args):
         return (200, [{'uid': 'b', 'title': 'Dashboard B'}])
 
     mocker.patch('grafana_backup.dashboardApi.search_dashboard', side_effect=side_effect)
-    assert dashboardApi.paging_feature_check(
-        api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
-    ) is True
+    assert (
+        dashboardApi.paging_feature_check(
+            api_args['grafana_url'],
+            api_args['http_get_headers'],
+            api_args['verify_ssl'],
+            api_args['client_cert'],
+            api_args['debug'],
+        )
+        is True
+    )
 
 
 def test_paging_feature_check_not_supported(mocker, api_args):
     mocker.patch('grafana_backup.dashboardApi.search_dashboard', return_value=(200, []))
-    assert dashboardApi.paging_feature_check(
-        api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
-    ) is False
+    assert (
+        dashboardApi.paging_feature_check(
+            api_args['grafana_url'],
+            api_args['http_get_headers'],
+            api_args['verify_ssl'],
+            api_args['client_cert'],
+            api_args['debug'],
+        )
+        is False
+    )
 
 
 @pytest.mark.parametrize(
@@ -242,8 +297,11 @@ def test_paging_feature_check_not_supported(mocker, api_args):
 def test_contact_point_check(mocker, api_args, search_return, expected):
     mocker.patch('grafana_backup.dashboardApi.search_contact_points', return_value=search_return)
     result = dashboardApi.contact_point_check(
-        api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        api_args['grafana_url'],
+        api_args['http_get_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result is expected
 
@@ -298,13 +356,19 @@ def test_send_grafana_http_methods(mocker, api_args, http_func, request_func, ex
 
     if http_func == dashboardApi.send_grafana_delete:
         result = http_func(
-            'http://localhost:3000/api/test', api_args['http_get_headers'],
-            api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+            'http://localhost:3000/api/test',
+            api_args['http_get_headers'],
+            api_args['verify_ssl'],
+            api_args['client_cert'],
+            api_args['debug'],
         )
     else:
         result = http_func(
-            'http://localhost:3000/api/test', api_args['http_get_headers'],
-            api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+            'http://localhost:3000/api/test',
+            api_args['http_get_headers'],
+            api_args['verify_ssl'],
+            api_args['client_cert'],
+            api_args['debug'],
         )
     assert result[0] == expected_status if isinstance(result, tuple) else result == expected_status
 
@@ -315,8 +379,12 @@ def test_send_grafana_post(mocker, api_args):
     mock_response.json.return_value = {'id': 1}
     mocker.patch('requests.post', return_value=mock_response)
     status, content = dashboardApi.send_grafana_post(
-        'http://localhost:3000/api/dashboards/db', '{}',
-        api_args['http_post_headers'], api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        'http://localhost:3000/api/dashboards/db',
+        '{}',
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200
     assert content == {'id': 1}
@@ -329,8 +397,12 @@ def test_send_grafana_post_non_json_response(mocker, api_args):
     mock_response.text = 'OK'
     mocker.patch('requests.post', return_value=mock_response)
     status, content = dashboardApi.send_grafana_post(
-        'http://localhost:3000/api/test', '{}',
-        api_args['http_post_headers'], api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        'http://localhost:3000/api/test',
+        '{}',
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200
     assert content == 'OK'
@@ -342,8 +414,12 @@ def test_send_grafana_put(mocker, api_args):
     mock_response.json.return_value = {'result': 'updated'}
     mocker.patch('requests.put', return_value=mock_response)
     status, content = dashboardApi.send_grafana_put(
-        'http://localhost:3000/api/test', '{}',
-        api_args['http_post_headers'], api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        'http://localhost:3000/api/test',
+        '{}',
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200
     assert content == {'result': 'updated'}
@@ -352,8 +428,12 @@ def test_send_grafana_put(mocker, api_args):
 def test_update_folder_permissions(mocker, api_args):
     mocker.patch('grafana_backup.dashboardApi.send_grafana_post', return_value=(200, {'status': 'ok'}))
     result = dashboardApi.update_folder_permissions(
-        [{'uid': 'folder-uid-1', 'items': []}], api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        [{'uid': 'folder-uid-1', 'items': []}],
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert result[0] == 200
 
@@ -364,8 +444,11 @@ def test_search_notification_policies(mocker, api_args):
         return_value=(200, {'receiver': 'default', 'group_by': []}),
     )
     status, content = dashboardApi.search_notification_policies(
-        api_args['grafana_url'], api_args['http_get_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        api_args['grafana_url'],
+        api_args['http_get_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200
     assert 'receiver' in content
@@ -377,7 +460,12 @@ def test_set_user_role(mocker, api_args):
     mock_response.json.return_value = {'message': 'role updated'}
     mocker.patch('requests.patch', return_value=mock_response)
     status, content = dashboardApi.set_user_role(
-        1, 'Viewer', api_args['grafana_url'], api_args['http_post_headers'],
-        api_args['verify_ssl'], api_args['client_cert'], api_args['debug'],
+        1,
+        'Viewer',
+        api_args['grafana_url'],
+        api_args['http_post_headers'],
+        api_args['verify_ssl'],
+        api_args['client_cert'],
+        api_args['debug'],
     )
     assert status == 200

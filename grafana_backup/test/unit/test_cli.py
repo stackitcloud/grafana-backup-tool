@@ -16,6 +16,7 @@ def _mock_sys_argv(monkeypatch):
 
 def test_cli_module_imports():
     from grafana_backup import cli
+
     assert hasattr(cli, 'main')
     assert hasattr(cli, 'docstring')
 
@@ -26,4 +27,5 @@ def test_cli_module_imports():
 )
 def test_cli_docstring_contains_keyword(_mock_sys_argv, keyword):
     from grafana_backup.cli import docstring
+
     assert keyword in docstring

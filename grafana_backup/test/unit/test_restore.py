@@ -42,10 +42,20 @@ def test_restore_all_components(mocker, default_settings, backup_archive):
     mocker.patch('grafana_backup.restore.api_checks', return_value=RESTORE_API_CHECKS_RETURN)
 
     for name in [
-        'create_folder', 'create_datasource', 'create_library_element', 'create_dashboard',
-        'create_alert_channel', 'create_org', 'create_user', 'create_snapshot',
-        'create_annotation', 'create_team', 'create_team_member',
-        'update_folder_permissions', 'create_alert_rule', 'create_contact_point',
+        'create_folder',
+        'create_datasource',
+        'create_library_element',
+        'create_dashboard',
+        'create_alert_channel',
+        'create_org',
+        'create_user',
+        'create_snapshot',
+        'create_annotation',
+        'create_team',
+        'create_team_member',
+        'update_folder_permissions',
+        'create_alert_rule',
+        'create_contact_point',
     ]:
         mocker.patch(f'grafana_backup.restore.{name}')
 

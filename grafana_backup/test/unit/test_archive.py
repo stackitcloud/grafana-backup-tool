@@ -96,9 +96,21 @@ def test_archive_empty_backup_dir(tmp_path, default_settings):
 
 
 ALL_FOLDERS = [
-    'folders', 'datasources', 'dashboards', 'alert_channels', 'organizations',
-    'users', 'snapshots', 'dashboard_versions', 'annotations', 'library-elements',
-    'teams', 'team_members', 'alert_rules', 'contact_points', 'notification_policies',
+    'folders',
+    'datasources',
+    'dashboards',
+    'alert_channels',
+    'organizations',
+    'users',
+    'snapshots',
+    'dashboard_versions',
+    'annotations',
+    'library-elements',
+    'teams',
+    'team_members',
+    'alert_rules',
+    'contact_points',
+    'notification_policies',
 ]
 
 
