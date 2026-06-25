@@ -1,5 +1,5 @@
 # Stage 1: Build the wheel file
-FROM docker.io/python:3.10-alpine@sha256:cb0f3c7df8d980aed5c2a84cc6b83cdcd3ef5a359a2ff68ec750946e86fe281a AS builder
+FROM docker.io/python:3.14-alpine@sha256:26730869004e2b9c4b9ad09cab8625e81d256d1ce97e72df5520e806b1709f92 AS builder
 
 WORKDIR /build
 
@@ -11,7 +11,7 @@ RUN pip install poetry && \
     ls -l /build/dist
 
 # Stage 2: Create the final image
-FROM docker.io/python:3.10-alpine@sha256:cb0f3c7df8d980aed5c2a84cc6b83cdcd3ef5a359a2ff68ec750946e86fe281a
+FROM docker.io/python:3.14-alpine@sha256:26730869004e2b9c4b9ad09cab8625e81d256d1ce97e72df5520e806b1709f92
 
 ENV RESTORE=false
 ENV ARCHIVE_FILE=""
