@@ -6,5 +6,35 @@
   ],
   additionalReviewers: [
     'team:ske-infrastructure',
+  ],
+  packageRules: [
+    {
+      groupName: 'devDeps non-major',
+      matchManagers: [
+        'poetry',
+      ],
+      matchDepTypes: ['dev'],
+      matchUpdateTypes: [
+        'digest',
+        'patch',
+        'minor'],
+      automerge: true,
+      addLabels: [
+        'skip-review',
+      ],
+    },
+    {
+      matchManagers: [
+        'poetry',
+      ],
+      matchUpdateTypes: [
+        'digest',
+        'patch',
+      ],
+      automerge: true,
+      addLabels: [
+        'skip-review',
+      ],
+    },
   ]
 }
