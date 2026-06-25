@@ -503,31 +503,29 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "google-api-core"
-version = "2.25.1"
+version = "2.31.0"
 description = "Google API client core library"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "google_api_core-2.25.1-py3-none-any.whl", hash = "sha256:8a2a56c1fef82987a524371f99f3bd0143702fecc670c72e600c1cda6bf8dbb7"},
-    {file = "google_api_core-2.25.1.tar.gz", hash = "sha256:d2aaa0b13c78c61cb3f4282c464c046e45fbd75755683c9c525e6e8f7ed0a5e8"},
+    {file = "google_api_core-2.31.0-py3-none-any.whl", hash = "sha256:ef79fb3784c71cbac89cbd03301ba0c8fb8ad2aa95d7f9204dd9628f7adf59ab"},
+    {file = "google_api_core-2.31.0.tar.gz", hash = "sha256:2be84ee0f584c48e6bde1b36766e23348b361fb7e55e56135fc76ce1c397f9c2"},
 ]
 
 [package.dependencies]
 google-auth = ">=2.14.1,<3.0.0"
-googleapis-common-protos = ">=1.56.2,<2.0.0"
+googleapis-common-protos = ">=1.63.2,<2.0.0"
 proto-plus = [
-    {version = ">=1.22.3,<2.0.0", markers = "python_version < \"3.13\""},
+    {version = ">=1.24.0,<2.0.0", markers = "python_version < \"3.13\""},
     {version = ">=1.25.0,<2.0.0", markers = "python_version >= \"3.13\""},
 ]
-protobuf = ">=3.19.5,<3.20.0 || >3.20.0,<3.20.1 || >3.20.1,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<7.0.0"
-requests = ">=2.18.0,<3.0.0"
+protobuf = ">=5.29.6,<8.0.0"
+requests = ">=2.33.0,<3.0.0"
 
 [package.extras]
-async-rest = ["google-auth[aiohttp] (>=2.35.0,<3.0.0)"]
-grpc = ["grpcio (>=1.33.2,<2.0.0)", "grpcio (>=1.49.1,<2.0.0) ; python_version >= \"3.11\"", "grpcio-status (>=1.33.2,<2.0.0)", "grpcio-status (>=1.49.1,<2.0.0) ; python_version >= \"3.11\""]
-grpcgcp = ["grpcio-gcp (>=0.2.2,<1.0.0)"]
-grpcio-gcp = ["grpcio-gcp (>=0.2.2,<1.0.0)"]
+async-rest = ["aiohttp (>=3.13.4)", "google-auth[aiohttp] (>=2.14.1,<3.0.0)"]
+grpc = ["grpcio (>=1.41.0,<2.0.0)", "grpcio (>=1.49.1,<2.0.0) ; python_version >= \"3.11\"", "grpcio (>=1.75.1,<2.0.0) ; python_version >= \"3.14\"", "grpcio-status (>=1.41.0,<2.0.0)", "grpcio-status (>=1.49.1,<2.0.0) ; python_version >= \"3.11\"", "grpcio-status (>=1.75.1,<2.0.0) ; python_version >= \"3.14\""]
 
 [[package]]
 name = "google-auth"
@@ -577,26 +575,28 @@ grpc = ["grpcio (>=1.38.0,<2.0.dev0)", "grpcio-status (>=1.38.0,<2.0.dev0)"]
 
 [[package]]
 name = "google-cloud-storage"
-version = "3.3.0"
+version = "3.12.0"
 description = "Google Cloud Storage API client library"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "google_cloud_storage-3.3.0-py3-none-any.whl", hash = "sha256:0338ecd6621b3ecacb108f1cf7513ff0d1bca7f1ff4d58e0220b59f3a725ff23"},
-    {file = "google_cloud_storage-3.3.0.tar.gz", hash = "sha256:ae9d891d53e17d9681d7c4ef1ffeea0cde9bdc53d5b64fa6ff6bf30d1911cf61"},
+    {file = "google_cloud_storage-3.12.0-py3-none-any.whl", hash = "sha256:3880773754ddf7c27567b04e2a4d193950b6b99429f37b9097d873686e95b09c"},
+    {file = "google_cloud_storage-3.12.0.tar.gz", hash = "sha256:03ae9847c6babb368f35f054126b8a08cbc0e3266efb990eb17b9926a45cf3be"},
 ]
 
 [package.dependencies]
-google-api-core = ">=2.15.0,<3.0.0"
+google-api-core = ">=2.27.0,<3.0.0"
 google-auth = ">=2.26.1,<3.0.0"
 google-cloud-core = ">=2.4.2,<3.0.0"
-google-crc32c = ">=1.1.3,<2.0.0"
+google-crc32c = ">=1.6.0,<2.0.0"
 google-resumable-media = ">=2.7.2,<3.0.0"
 requests = ">=2.22.0,<3.0.0"
 
 [package.extras]
+grpc = ["google-api-core[grpc] (>=2.27.0,<3.0.0)", "grpc-google-iam-v1 (>=0.14.0,<1.0.0)", "grpcio (>=1.59.0,<2.0.0) ; python_version < \"3.14\"", "grpcio (>=1.75.1,<2.0.0) ; python_version >= \"3.14\"", "grpcio-status (>=1.59.0,<2.0.0) ; python_version < \"3.14\"", "grpcio-status (>=1.75.1,<2.0.0) ; python_version >= \"3.14\"", "proto-plus (>=1.22.3,<2.0.0) ; python_version < \"3.13\"", "proto-plus (>=1.25.0,<2.0.0) ; python_version >= \"3.13\"", "protobuf (>=4.25.8,<8.0.0)"]
 protobuf = ["protobuf (>=3.20.2,<7.0.0)"]
+testing = ["PyYAML", "black", "brotli", "coverage", "flake8", "google-cloud-iam", "google-cloud-kms", "google-cloud-pubsub", "google-cloud-testutils", "google-cloud-testutils", "mock", "numpy", "opentelemetry-sdk", "psutil", "py-cpuinfo", "pyopenssl", "pytest", "pytest-asyncio", "pytest-benchmark", "pytest-cov", "pytest-rerunfailures", "pytest-xdist"]
 tracing = ["opentelemetry-api (>=1.1.0,<2.0.0)"]
 
 [[package]]
@@ -1221,4 +1221,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10.0"
-content-hash = "15c47b997070ae2bcf500c9adfbb72cade737e90b0c00db266a6fdd3c81d8600"
+content-hash = "1c093fbf232da0d618da28fe4c3747851e8c099b6dbf6140bfc9a3336766aa1e"
