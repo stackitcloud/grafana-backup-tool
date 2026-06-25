@@ -14,7 +14,7 @@ all: verify
 ##@ Build
 
 build:
-	@poetry install
+	poetry install
 
 .PHONY: image
 image: ## Build Docker image.
@@ -40,23 +40,19 @@ buildx-and-push: ## Build multi-platform and push Docker image.
 
 .PHONY: fmt
 fmt: ## Run ruff format and ruff sort imports.
-	@poetry run ruff format .
-	@poetry run ruff check --select I --fix .
+	poetry run ruff format .
+	poetry run ruff check --select I --fix .
 
 .PHONY: lint
 lint: ## Run ruff linter.
-	@poetry run ruff check .
+	poetry run ruff check .
 
 .PHONY: check
-check: lint fmt ## Run Python checks (lint + format).
+check: lint test ## Run Python checks.
 
 .PHONY: test
 test: ## Run tests with pytest.
-	@poetry run pytest
-
-.PHONY: test-cover
-test-cover: ## Run tests with coverage.
-	@poetry run pytest --cov=grafana_backup --cov-report=html
+	poetry run pytest
 
 ##@ Verification
 
@@ -74,8 +70,7 @@ verify: verify-fmt check
 .PHONY: clean
 clean: ## Remove build artifacts.
 	rm -rf dist/ build/ *.egg-info grafana_backup.egg-info
-	rm -rf .pytest_cache/ .coverage cover.html
-	rm -rf htmlcov/
+	rm -rf .pytest_cache/ .coverage coverage.xml
 
 .PHONY: help
 help: ## Display this help.
