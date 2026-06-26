@@ -10,3 +10,9 @@ cover/
 *.egg-info/
 .coverage
 coverage.xml
+melange.rsa
+melange.rsa.pub
+packages/
+.melange.yaml
+.melange-source
+*.tar

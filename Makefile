@@ -4,9 +4,14 @@ SHELL = /usr/bin/env bash -o pipefail
 .SHELLFLAGS = -ec
 
 VERSION ?= $(shell git describe --dirty --tags --match='v*' 2>/dev/null || git rev-parse --short HEAD)
+MELANGE_VERSION ?= $(patsubst v%,%,$(word 1,$(subst -, ,$(VERSION))))
 REGISTRY ?= ghcr.io
 REPO ?= stackitcloud/grafana-backup-tool
-PLATFORMS ?= amd64 arm64
+PLATFORMS ?= amd64,arm64
+MELANGE_KEY ?= melange.rsa
+PACKAGES_DIR ?= packages
+IMAGE_TAG ?= $(REGISTRY)/$(REPO):$(VERSION)
+IMAGE_TAR ?= grafana-backup-tool.tar
 
 .PHONY: all
 all: verify
@@ -16,25 +21,45 @@ all: verify
 build:
 	poetry install
 
+.PHONY: key
+key: ## Generate melange signing key.
+	@test -f $(MELANGE_KEY) || melange keygen $(MELANGE_KEY)
+
+.PHONY: melange-build
+melange-build: key ## Build APK package with melange.
+	sed 's/^  version:.*/  version: $(MELANGE_VERSION)/' melange.yaml > .melange.yaml
+	@for arch in $$(echo $(PLATFORMS) | tr ',' ' '); do \
+		echo "Building architecture: $$arch"; \
+		melange build .melange.yaml \
+			--source-dir . \
+			--out-dir $(PACKAGES_DIR) \
+			--arch $$arch \
+			--signing-key $(MELANGE_KEY); \
+	done
+	rm -f .melange.yaml
+
 .PHONY: image
-image: ## Build Docker image.
-	docker buildx build \
-		--output type=image,name=$(REGISTRY)/$(REPO),push=false \
-		--platform $(PLATFORMS) \
-		--tag $(REGISTRY)/$(REPO):$(VERSION) \
-		--file Dockerfile .
+image: melange-build ## Build OCI image (tarball).
+	apko build apko.yaml \
+		$(IMAGE_TAG) \
+		$(IMAGE_TAR) \
+		--sbom=false \
+		--arch $(PLATFORMS) \
+		-r "@local ./$(PACKAGES_DIR)" \
+		--keyring-append $(MELANGE_KEY).pub
+
+.PHONY: docker-load
+docker-load: image ## Load image into local Docker.
+	docker load -i $(IMAGE_TAR)
 
 .PHONY: push
-push: image ## Build and push Docker image.
-	docker push $(REGISTRY)/$(REPO):$(VERSION)
-
-.PHONY: buildx-and-push
-buildx-and-push: ## Build multi-platform and push Docker image.
-	docker buildx build \
-		--output type=image,name=$(REGISTRY)/$(REPO),push=true \
-		--platform $(PLATFORMS) \
-		--tag $(REGISTRY)/$(REPO):$(VERSION) \
-		--file Dockerfile .
+push: melange-build ## Push image to registry using apko.
+	apko publish apko.yaml \
+		$(IMAGE_TAG) \
+		--sbom=false \
+		--arch $(PLATFORMS) \
+		-r "@local ./$(PACKAGES_DIR)" \
+		--keyring-append $(MELANGE_KEY).pub
 
 ##@ Python
 
@@ -71,6 +96,7 @@ verify: verify-fmt check
 clean: ## Remove build artifacts.
 	rm -rf dist/ build/ *.egg-info grafana_backup.egg-info
 	rm -rf .pytest_cache/ .coverage coverage.xml
+	rm -rf $(PACKAGES_DIR)/ .melange.yaml $(IMAGE_TAR)
 
 .PHONY: help
 help: ## Display this help.

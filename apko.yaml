@@ -1,0 +1,34 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - wolfi-base
+    - python-3.10
+    - grafana-backup@local
+
+accounts:
+  groups:
+    - groupname: grafana-backup
+      gid: 1337
+  users:
+    - username: grafana-backup
+      uid: 1337
+  run-as: "1337"
+
+environment:
+  RESTORE: "false"
+  ARCHIVE_FILE: ""
+  PY_COLORS: "1"
+  TZ: "UTC"
+  PYTHONWARNINGS: "ignore::FutureWarning"
+
+entrypoint:
+  command: /usr/bin/grafana-backup-entrypoint
+
+work-dir: /opt/grafana-backup-tool
+
+archs:
+  - amd64
+  - arm64
