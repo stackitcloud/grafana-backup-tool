@@ -97,6 +97,7 @@ clean: ## Remove build artifacts.
 	rm -rf dist/ build/ *.egg-info grafana_backup.egg-info
 	rm -rf .pytest_cache/ .coverage coverage.xml
 	rm -rf $(PACKAGES_DIR)/ .melange.yaml $(IMAGE_TAR)
+	rm -f $(MELANGE_KEY) $(MELANGE_KEY).pub
 
 .PHONY: help
 help: ## Display this help.
