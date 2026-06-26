@@ -31,4 +31,3 @@ work-dir: /opt/grafana-backup-tool
 
 archs:
   - amd64
-  - arm64

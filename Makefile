@@ -7,7 +7,7 @@ VERSION ?= $(shell git describe --dirty --tags --match='v*' 2>/dev/null || git r
 MELANGE_VERSION ?= $(patsubst v%,%,$(word 1,$(subst -, ,$(VERSION))))
 REGISTRY ?= ghcr.io
 REPO ?= stackitcloud/grafana-backup-tool
-PLATFORMS ?= amd64,arm64
+PLATFORMS ?= amd64
 MELANGE_KEY ?= melange.rsa
 PACKAGES_DIR ?= packages
 IMAGE_TAG ?= $(REGISTRY)/$(REPO):$(VERSION)
