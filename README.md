@@ -59,7 +59,7 @@ There are three ways to setup the configuration:
 
 **NOTE** If you use `environment variables`, you need to add the following to your `.bashrc` or execute once before using the tool (please change variables according to your setup):
 
-(`GRAFANA_HEADERS` is optional, use it if necessary. please see [#45](https://github.com/ysde/grafana-backup-tool/issues/45))
+(`GRAFANA_HEADERS` is optional, use it if necessary)
 
 ```bash
 ### Do not use a trailing slash on GRAFANA_URL
@@ -161,7 +161,7 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
            -e GRAFANA_ADMIN_PASSWORD={YOUR_GRAFANA_ADMIN_PASSWORD} \
            -e VERIFY_SSL={True/False} \
            -v {YOUR_BACKUP_FOLDER_ON_THE_HOST}:/opt/grafana-backup-tool/_OUTPUT_  \
-           ysde/docker-grafana-backup-tool
+           ghcr.io/stackitcloud/grafana-backup-tool
 ```
 
 **_Example:_**
@@ -174,10 +174,10 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
            -e GRAFANA_ADMIN_PASSWORD=adminpassword \
            -e VERIFY_SSL=False \
            -v /tmp/backup/:/opt/grafana-backup-tool/_OUTPUT_ \
-           ysde/docker-grafana-backup-tool
+           ghcr.io/stackitcloud/grafana-backup-tool
 ```
 
-**_S3 Example:_** Set S3 configurations in `-e` or `grafanaSettings.json`([example](https://github.com/ysde/grafana-backup-tool/blob/master/examples/grafana-backup.example.json))
+**_S3 Example:_** Set S3 configurations in `-e` or `grafanaSettings.json`([example](https://github.com/stackitcloud/grafana-backup-tool/blob/master/examples/grafana-backup.example.json))
 
 ```shell
            -e AWS_S3_BUCKET_NAME="my-backups-bucket" \
@@ -187,14 +187,14 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
            -e AWS_SECRET_ACCESS_KEY="secret" \
 ```
 
-**_Azure Example:_** Set Azure configurations in `-e` or `grafanaSettings.json`([example](https://github.com/ysde/grafana-backup-tool/blob/master/examples/grafana-backup.example.json))
+**_Azure Example:_** Set Azure configurations in `-e` or `grafanaSettings.json`([example](https://github.com/stackitcloud/grafana-backup-tool/blob/master/examples/grafana-backup.example.json))
 
 ```shell
            -e AZURE_STORAGE_CONTAINER_NAME="azure-storage-container-name" \
            -e AZURE_STORAGE_CONNECTION_STRING="azure-storage-connection-string"
 ```
 
-**_GCS Example:_** Set GCS configurations in `-e` or `grafanaSettings.json`([example](https://github.com/ysde/grafana-backup-tool/blob/master/examples/grafana-backup.example.json))
+**_GCS Example:_** Set GCS configurations in `-e` or `grafanaSettings.json`([example](https://github.com/stackitcloud/grafana-backup-tool/blob/master/examples/grafana-backup.example.json))
 
 ```shell
            -e GCS_BUCKET_NAME="backups-bucket-name" \
@@ -215,7 +215,7 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
            -e RESTORE="true" \
            -e ARCHIVE_FILE={THE_ARCHIVED_FILE_NAME} \
            -v {YOUR_BACKUP_FOLDER_ON_THE_HOST}:/opt/grafana-backup-tool/_OUTPUT_  \
-           ysde/docker-grafana-backup-tool
+           ghcr.io/stackitcloud/grafana-backup-tool
 ```
 
 **_Example:_**
@@ -230,12 +230,12 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
            -e RESTORE="true" \
            -e ARCHIVE_FILE="202006280247.tar.gz" \
            -v /tmp/backup/:/opt/grafana-backup-tool/_OUTPUT_ \
-           ysde/docker-grafana-backup-tool
+           ghcr.io/stackitcloud/grafana-backup-tool
 ```
 
 ### Building
 
-You can build the docker image simply by executing `make` in the root of this repo. The image will get tagged as `ysde:grafana-backup`
+You can build the container image locally by `make image LOCAL=true` in the root of this repo.
 
 ### Monitoring
 

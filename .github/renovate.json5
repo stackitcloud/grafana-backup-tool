@@ -37,5 +37,15 @@
         'skip-review',
       ],
     },
+    {
+      description: 'help renovate fetch changelogs for apko',
+      matchDatasources: [
+        'custom.wolfi'
+      ],
+      matchDepNames: [
+        'apko'
+      ],
+      changelogUrl: 'https://github.com/chainguard-dev/apko',
+    },
   ]
 }

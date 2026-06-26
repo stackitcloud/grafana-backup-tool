@@ -1,0 +1,40 @@
+package:
+  name: grafana-backup
+  version: 0.0.0
+  epoch: 0
+  description: "A Python-based tool to backup and restore Grafana settings"
+  copyright:
+    - license: MIT
+  dependencies:
+    runtime:
+      - python-3.10
+
+environment:
+  contents:
+    repositories:
+      - https://packages.wolfi.dev/os
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    packages:
+      - build-base
+      - busybox=~1.37.0
+      - python-3.10=~3.10.20
+      - python-3.10-dev=~3.10.20
+      - py3.10-pip=~26.1.2
+      - py3.10-poetry-bin=~2.4.1
+
+pipeline:
+  - runs: |
+      cd /home/build
+      poetry build
+      pip install --ignore-installed --prefix=/usr --root="${{targets.destdir}}" dist/*.whl
+      install -Dm755 entrypoint.sh "${{targets.destdir}}/usr/bin/grafana-backup-entrypoint"
+
+test:
+  environment:
+    contents:
+      packages:
+        - busybox
+  pipeline:
+    - runs: |
+        test -f /usr/bin/grafana-backup
