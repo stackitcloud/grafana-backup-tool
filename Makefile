@@ -12,6 +12,7 @@ MELANGE_KEY ?= melange.rsa
 PACKAGES_DIR ?= packages
 IMAGE_TAG ?= $(REGISTRY)/$(REPO):$(VERSION)
 IMAGE_TAR ?= grafana-backup-tool.tar
+LOCAL ?= false
 
 .PHONY: all
 all: verify
@@ -39,7 +40,9 @@ melange-build: key ## Build APK package with melange.
 	rm -f .melange.yaml
 
 .PHONY: image
-image: melange-build ## Build OCI image (tarball).
+image: melange-build ## Build OCI image. Set LOCAL=true to load to local Docker, false (default) to push.
+ifeq ($(LOCAL),true)
+	@echo "Building image locally and loading into Docker..."
 	apko build apko.yaml \
 		$(IMAGE_TAG) \
 		$(IMAGE_TAR) \
@@ -47,19 +50,16 @@ image: melange-build ## Build OCI image (tarball).
 		--arch $(PLATFORMS) \
 		-r "@local ./$(PACKAGES_DIR)" \
 		--keyring-append $(MELANGE_KEY).pub
-
-.PHONY: docker-load
-docker-load: image ## Load image into local Docker.
 	docker load -i $(IMAGE_TAR)
-
-.PHONY: push
-push: melange-build ## Push image to registry using apko.
+else
+	@echo "Publishing image to registry $(REGISTRY)..."
 	apko publish apko.yaml \
 		$(IMAGE_TAG) \
 		--sbom=false \
 		--arch $(PLATFORMS) \
 		-r "@local ./$(PACKAGES_DIR)" \
 		--keyring-append $(MELANGE_KEY).pub
+endif
 
 ##@ Python
 

@@ -17,11 +17,11 @@ environment:
       - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
     packages:
       - build-base
-      - busybox
-      - python-3.10
-      - python-3.10-dev
-      - py3.10-pip
-      - py3.10-poetry-bin
+      - busybox=~2.3
+      - python-3.10=~3.10.20
+      - python-3.10-dev=~3.10.20
+      - py3.10-pip=~26.1.2
+      - py3.10-poetry-bin=~2.4.1
 
 pipeline:
   - runs: |
