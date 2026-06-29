@@ -10,9 +10,15 @@ REPO ?= stackitcloud/grafana-backup-tool
 PLATFORMS ?= amd64
 MELANGE_KEY ?= melange.rsa
 PACKAGES_DIR ?= packages
-IMAGE_TAG ?= $(REGISTRY)/$(REPO):$(VERSION)
 IMAGE_TAR ?= grafana-backup-tool.tar
 LOCAL ?= false
+
+HEAD_CT := $(shell git show -s --format=%ct HEAD 2>/dev/null || echo 0)
+COMMIT_TIMESTAMP := $(shell date -d @$(HEAD_CT) -u +%Y%m%d%H%M%S)
+SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
+TAGS_LIST := v$(COMMIT_TIMESTAMP)-$(SHORT_SHA) $(VERSION)
+UNIQUE_TAGS := $(sort $(TAGS_LIST))
+IMAGE_REFS := $(foreach tag,$(UNIQUE_TAGS),$(REGISTRY)/$(REPO):$(tag))
 
 .PHONY: all
 all: verify
@@ -44,7 +50,7 @@ image: melange-build ## Build OCI image. Set LOCAL=true to load to local Docker,
 ifeq ($(LOCAL),true)
 	@echo "Building image locally and loading into Docker..."
 	apko build apko.yaml \
-		$(IMAGE_TAG) \
+		$(word 1,$(IMAGE_REFS)) \
 		$(IMAGE_TAR) \
 		--sbom=false \
 		--arch $(PLATFORMS) \
@@ -52,9 +58,10 @@ ifeq ($(LOCAL),true)
 		--keyring-append $(MELANGE_KEY).pub
 	docker load -i $(IMAGE_TAR)
 else
-	@echo "Publishing image to registry $(REGISTRY)..."
+	@echo "Publishing image to registry $(REGISTRY) with tags:"
+	@for ref in $(IMAGE_REFS); do echo "  - $$ref"; done
 	apko publish apko.yaml \
-		$(IMAGE_TAG) \
+		$(IMAGE_REFS) \
 		--sbom=false \
 		--arch $(PLATFORMS) \
 		-r "@local ./$(PACKAGES_DIR)" \
