@@ -16,14 +16,7 @@ LOCAL ?= false
 HEAD_CT := $(shell git show -s --format=%ct HEAD 2>/dev/null || echo 0)
 COMMIT_TIMESTAMP := $(shell date -d @$(HEAD_CT) -u +%Y%m%d%H%M%S)
 SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
-EXACT_TAG := $(shell git describe --tags --exact-match 2>/dev/null || true)
-
 TAGS_LIST := v$(COMMIT_TIMESTAMP)-$(SHORT_SHA) $(VERSION)
-
-ifneq ($(EXACT_TAG),)
-TAGS_LIST += $(EXACT_TAG)
-endif
-
 UNIQUE_TAGS := $(sort $(TAGS_LIST))
 IMAGE_REFS := $(foreach tag,$(UNIQUE_TAGS),$(REGISTRY)/$(REPO):$(tag))
 
