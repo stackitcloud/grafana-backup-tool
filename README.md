@@ -1,8 +1,8 @@
 # Grafana Backup Tool
 
-[![GitHub License](https://img.shields.io/github/license/stackitcloud/stackit-sdk-go)](https://www.apache.org/licenses/LICENSE-2.0)
+[![GitHub License](https://img.shields.io/github/license/stackitcloud/grafana-backup-tool)](https://github.com/stackitcloud/grafana-backup-tool/blob/main/LICENSE)
 
-A Python-based application to backup Grafana settings using the [Grafana API](https://grafana.com/docs/grafana/latest/http_api/).
+A Python-based application to backup Grafana settings using the [Grafana API](https://grafana.com/docs/grafana/latest/http_api/). This project is a fork of [grafana-backup-tool](https://github.com/ysde/grafana-backup-tool) from ArthurYueh. Thanks for your work.
 
 The aim of this tool is to:
 
