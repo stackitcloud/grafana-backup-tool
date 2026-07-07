@@ -15,6 +15,7 @@ accounts:
   users:
     - username: grafana-backup
       uid: 1337
+      shell: /bin/bash
   run-as: "1337"
 
 environment:
@@ -28,6 +29,13 @@ entrypoint:
   command: /usr/bin/grafana-backup-entrypoint
 
 work-dir: /opt/grafana-backup-tool
+
+paths:
+  - path: /opt/grafana-backup-tool
+    type: directory
+    uid: 1337
+    gid: 1337
+    permissions: 0o755
 
 archs:
   - amd64
