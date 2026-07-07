@@ -40,7 +40,7 @@ The aim of this tool is to:
 ## Requirements
 
 - Bash
-- Python 2.7 or Python 3.x
+- Python >= 3.10
 - Access to a Grafana API server.
 - A `Token` of an `Admin` role (see `Configuration` section below for more info)
 
@@ -235,7 +235,12 @@ docker run --user $(id -u):$(id -g) --rm --name grafana-backup-tool \
 
 ### Building
 
-You can build the container image locally by `make image LOCAL=true` in the root of this repo.
+You can build the container image locally by `make image LOCAL=true` in the root of this repo. If you are using Docker Desktop, ensure to export the `DOCKER_SOCKET` path correctly:
+
+```sh
+export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
+make image LOCAL=true
+```
 
 ### Monitoring
 
