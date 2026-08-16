@@ -43,18 +43,18 @@ aio = ["azure-core[aio] (>=1.37.0)"]
 
 [[package]]
 name = "boto3"
-version = "1.43.70"
+version = "1.43.71"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "boto3-1.43.70-py3-none-any.whl", hash = "sha256:b9399cce51bec9552e61a6b85015c42dea68752e79c00a7005d84eaf7ee15fef"},
-    {file = "boto3-1.43.70.tar.gz", hash = "sha256:4f1e16b9eebbad3f312bb6fbf7685d40abdd52a691485cb9f09e7df60d912b41"},
+    {file = "boto3-1.43.71-py3-none-any.whl", hash = "sha256:3bb46661dc33121e56e3706753069d18f8dbcb644599cf098206546338602e16"},
+    {file = "boto3-1.43.71.tar.gz", hash = "sha256:e3eddb6346ee23c895dd98e5c2cfc72cb5e5ed111aa6d4331f9e903a3e3bf4ee"},
 ]
 
 [package.dependencies]
-botocore = ">=1.43.70,<1.44.0"
+botocore = ">=1.43.71,<1.44.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.19.0,<0.20.0"
 
@@ -1220,4 +1220,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10.0"
-content-hash = "ff0e61d58b2e61ee2349ae26c6ee150d88eb74e860366009b221d3d0648c708e"
+content-hash = "2489496ae79e9276a261776809eaf2c01b2a3a69347f2737923cee8c41bdc8d1"
