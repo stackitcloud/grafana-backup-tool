@@ -574,14 +574,14 @@ grpc = ["grpcio (>=1.38.0,<2.0.dev0)", "grpcio-status (>=1.38.0,<2.0.dev0)"]
 
 [[package]]
 name = "google-cloud-storage"
-version = "3.15.0"
+version = "3.15.1"
 description = "Google Cloud Storage API client library"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "google_cloud_storage-3.15.0-py3-none-any.whl", hash = "sha256:248905def997a300ad456c0696cf7fad04b8c38412c1103ebb2a60cc6341579f"},
-    {file = "google_cloud_storage-3.15.0.tar.gz", hash = "sha256:110041ee1cb566114015aa7c2492f1ff18c92af528588386663f4b41b6279989"},
+    {file = "google_cloud_storage-3.15.1-py3-none-any.whl", hash = "sha256:8e05c55b9168b15a523728d8c2c75dc8403bc2ec889f2421556845ab3a276e62"},
+    {file = "google_cloud_storage-3.15.1.tar.gz", hash = "sha256:b6d882049c18f5e8a29da1998cdbed31586e2b0d738886c3ad13688c69ffb272"},
 ]
 
 [package.dependencies]
@@ -1220,4 +1220,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10.0"
-content-hash = "49da07ad224055ba11e77aa812d4b0683f79310e726a5c613f317b1a9c8d1899"
+content-hash = "da709f0ce60aaf4c581d9d6325b03c2b7b7ac839db661290ca5c7f244fb90727"
